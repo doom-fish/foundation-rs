@@ -1,0 +1,3 @@
+#ifndef FOUNDATION_BRIDGE_H
+#define FOUNDATION_BRIDGE_H
+#endif
