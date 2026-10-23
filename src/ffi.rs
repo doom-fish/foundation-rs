@@ -3,6 +3,10 @@ use core::ffi::{c_char, c_void};
 extern "C" {
     pub fn foundation_string_free(string: *mut c_char);
 
+    pub fn foundation_bundle_identifier() -> *mut c_char;
+    pub fn foundation_bundle_path() -> *mut c_char;
+    pub fn foundation_bundle_url_for_auxiliary_executable(name: *const c_char) -> *mut c_char;
+
     pub fn foundation_user_defaults_standard() -> *mut c_void;
     pub fn foundation_user_defaults_with_suite_name(name: *const c_char) -> *mut c_void;
     pub fn foundation_user_defaults_release(defaults: *mut c_void);
