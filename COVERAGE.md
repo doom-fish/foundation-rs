@@ -85,3 +85,12 @@
 | Objective-C API | Status | Rust API | Notes |
 | --- | --- | --- | --- |
 | `@autoreleasepool` | ✅ | `autoreleasepool` | Drains when the closure returns or panics. |
+
+## NSBundle
+
+| Objective-C API | Status | Rust API | Notes |
+| --- | --- | --- | --- |
+| `+mainBundle` | ✅ | `Bundle::main` |  |
+| `-bundleIdentifier` | ✅ | `Bundle::bundle_identifier` | `None` when the bundle has no identifier. |
+| `-bundlePath` | ✅ | `Bundle::bundle_path` | A copy of the file-system bytes. |
+| `-URLForAuxiliaryExecutable:` | ✅ | `Bundle::url_for_auxiliary_executable` | `None` when the executable does not exist. |

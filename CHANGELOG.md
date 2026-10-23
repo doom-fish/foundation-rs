@@ -4,6 +4,12 @@ This file records the important changes to `foundation-rs`.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `Bundle` reads the main bundle: its identifier, its path and the paths of its auxiliary executables. A path is a copy of the file-system bytes.
+
 ## [0.1.1] - 2026-10-23
 
 ### Added
