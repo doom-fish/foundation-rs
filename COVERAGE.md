@@ -1,7 +1,7 @@
 # COVERAGE
 
 - Framework: `Foundation.framework`
-- Scope: this release covers the values of `NSUserDefaults`, the system information of `NSProcessInfo`, and autorelease pools. The other Foundation classes are not in this release.
+- Scope: this release covers `NSUserDefaults`, process information, process activities, `NSNotificationCenter` observers, and autorelease pools. Other Foundation classes are not in this release.
 - Legend: `✅` implemented, `⏭️` not implemented
 
 ## NSUserDefaults
@@ -29,6 +29,17 @@
 | `-dictionaryRepresentation`, `-objectIsForcedForKey:` | ⏭️ |  |  |
 | `NSUserDefaultsDidChangeNotification` | ⏭️ |  |  |
 
+## NSNotificationCenter
+
+| Apple API | Status | Rust surface | Notes |
+| --- | --- | --- | --- |
+| `+defaultCenter` | ✅ | `NotificationCenter::default_center` | The process-wide center. |
+| `-init` | ✅ | `NotificationCenter::new` | Each call makes a private center. |
+| `-addObserverForName:object:queue:usingBlock:` | ✅ | `NotificationCenter::add_observer` | Any object; the callback runs on the posting thread. |
+| `-removeObserver:` | ✅ | `NotificationObserver` drop | A callback that already started can finish after drop. |
+| `-postNotificationName:object:` | ✅ | `NotificationCenter::post` | The object is nil. |
+| `-postNotification:`, `-addObserver:selector:name:object:`, `-removeObserver:name:object:` | ⏭️ |  |  |
+
 ## NSProcessInfo
 
 | Apple API | Status | Rust surface | Notes |
@@ -44,10 +55,30 @@
 | `systemUptime` | ✅ | `ProcessInfo::system_uptime` |  |
 | `lowPowerModeEnabled` | ✅ | `ProcessInfo::is_low_power_mode_enabled` | Needs macOS 12. On macOS 11 the value is `false`. |
 | `thermalState` | ✅ | `ProcessInfo::thermal_state` | A value that this release does not know gives `ThermalState::Unknown`. |
+| `NSProcessInfoThermalStateDidChangeNotification` | ✅ | `ProcessInfo::THERMAL_STATE_DID_CHANGE_NOTIFICATION` | Observe the default center. |
+| `NSProcessInfoPowerStateDidChangeNotification` | ✅ | `ProcessInfo::POWER_STATE_DID_CHANGE_NOTIFICATION` | Observe the default center on macOS 12 or later. |
 | `environment`, `arguments`, `globallyUniqueString`, `hostName` | ⏭️ |  |  |
-| `-beginActivityWithOptions:reason:`, `-endActivity:`, `-performActivityWithOptions:reason:usingBlock:` | ⏭️ |  |  |
 | `-disableSuddenTermination`, `-enableSuddenTermination`, `-disableAutomaticTermination:`, `-enableAutomaticTermination:` | ⏭️ |  |  |
 | `macCatalystApp`, `iOSAppOnMac` | ⏭️ |  |  |
+
+## Process activities
+
+| Apple API | Status | Rust surface | Notes |
+| --- | --- | --- | --- |
+| `-beginActivityWithOptions:reason:` | ✅ | `ProcessInfo::begin_activity` | The reason must not be empty. |
+| `-endActivity:` | ✅ | `Activity` drop | The activity ends once. |
+| `NSActivityIdleDisplaySleepDisabled` | ✅ | `ActivityOptions::IDLE_DISPLAY_SLEEP_DISABLED` |  |
+| `NSActivityIdleSystemSleepDisabled` | ✅ | `ActivityOptions::IDLE_SYSTEM_SLEEP_DISABLED` |  |
+| `NSActivitySuddenTerminationDisabled` | ✅ | `ActivityOptions::SUDDEN_TERMINATION_DISABLED` |  |
+| `NSActivityAutomaticTerminationDisabled` | ✅ | `ActivityOptions::AUTOMATIC_TERMINATION_DISABLED` |  |
+| `NSActivityAnimationTrackingEnabled` | ✅ | `ActivityOptions::ANIMATION_TRACKING_ENABLED` | Needs macOS 13. |
+| `NSActivityTrackingEnabled` | ✅ | `ActivityOptions::TRACKING_ENABLED` | Needs macOS 13. |
+| `NSActivityUserInitiated` | ✅ | `ActivityOptions::USER_INITIATED` |  |
+| `NSActivityUserInitiatedAllowingIdleSystemSleep` | ✅ | `ActivityOptions::USER_INITIATED_ALLOWING_IDLE_SYSTEM_SLEEP` |  |
+| `NSActivityBackground` | ✅ | `ActivityOptions::BACKGROUND` |  |
+| `NSActivityLatencyCritical` | ✅ | `ActivityOptions::LATENCY_CRITICAL` |  |
+| `NSActivityUserInteractive` | ✅ | `ActivityOptions::USER_INTERACTIVE` | Needs macOS 13. |
+| `-performActivityWithOptions:reason:usingBlock:` | ⏭️ |  |  |
 
 ## Autorelease pools
 

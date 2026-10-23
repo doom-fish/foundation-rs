@@ -1,8 +1,8 @@
 # foundation-rs
 
-Safe Rust bindings for Apple's [Foundation](https://developer.apple.com/documentation/foundation) framework on macOS. This release gives access to user defaults (`UserDefaults`) and to process information (`ProcessInfo`).
+Safe Rust bindings for Apple's [Foundation](https://developer.apple.com/documentation/foundation) framework on macOS. The crate supplies user defaults, process information, notification observers, and process activities.
 
-The crate requires macOS 11 or later. Low power mode needs macOS 12. On macOS 11, `ProcessInfo::is_low_power_mode_enabled` returns `false`.
+The crate requires macOS 11 or later. Low power mode and its notification need macOS 12. The animation tracking, tracking, and user interactive activity options need macOS 13. On macOS 11, `ProcessInfo::is_low_power_mode_enabled` returns `false`.
 
 ## Quick start
 
@@ -40,6 +40,18 @@ assert!(ProcessInfo::is_operating_system_at_least(OperatingSystemVersion::new(11
 assert_eq!(ProcessInfo::process_identifier() as u32, std::process::id());
 ```
 
+## Notifications
+
+`NotificationCenter::default_center` gives the process-wide center. `NotificationCenter::new` makes a private center. Clone a center to retain it.
+
+`add_observer` registers a callback for a name from any object. The callback runs on the posting thread. Drop the `NotificationObserver` to remove it. A callback that starts before the drop can finish after the drop returns.
+
+`post` sends a notification with no object. `ProcessInfo` supplies the thermal and power notification names.
+
+## Process activities
+
+`ProcessInfo::begin_activity` starts an activity with `ActivityOptions` and a nonempty reason. Combine options with `|` or `|=`. The `from_bits` method keeps unknown bits. Drop the `Activity` to end it.
+
 ## Raw functions
 
 The `ffi` module declares the functions of the Swift bridge. A string that a bridge function returns belongs to the caller. Use `ffi::foundation_string_free` to release it.
@@ -49,6 +61,7 @@ The `ffi` module declares the functions of the Swift bridge. A string that a bri
 ```bash
 cargo run --example 01_process_info
 cargo run --example 02_user_defaults
+cargo run --example 03_notifications_and_activities
 ```
 
 ## License

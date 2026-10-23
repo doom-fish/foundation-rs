@@ -9,6 +9,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 ### Added
 
 - `autoreleasepool` runs a closure inside an Objective-C autorelease pool. The pool drains when the closure returns or panics.
+- `NotificationCenter` observes and posts named notifications. An observer removes itself when it drops.
+- `ProcessInfo::begin_activity` starts a process activity. The `Activity` ends the activity when it drops.
+- `ActivityOptions` supplies the activity options, and `ProcessInfo` supplies the thermal and power notification names.
 
 ## [0.1.0] - 2026-10-23
 

@@ -66,3 +66,29 @@ public func foundation_process_info_is_low_power_mode_enabled() -> Bool {
 public func foundation_process_info_thermal_state() -> Int64 {
     Int64(ProcessInfo.processInfo.thermalState.rawValue)
 }
+
+private final class ProcessActivity {
+    private let token: NSObjectProtocol
+
+    init(token: NSObjectProtocol) {
+        self.token = token
+    }
+
+    deinit {
+        ProcessInfo.processInfo.endActivity(token)
+    }
+}
+
+@_cdecl("foundation_process_info_begin_activity")
+public func foundation_process_info_begin_activity(_ options: UInt64, _ reason: UnsafePointer<CChar>) -> UnsafeMutableRawPointer {
+    let token = ProcessInfo.processInfo.beginActivity(
+        options: ProcessInfo.ActivityOptions(rawValue: options),
+        reason: String(cString: reason)
+    )
+    return Unmanaged.passRetained(ProcessActivity(token: token)).toOpaque()
+}
+
+@_cdecl("foundation_process_info_end_activity")
+public func foundation_process_info_end_activity(_ handle: UnsafeMutableRawPointer) {
+    Unmanaged<ProcessActivity>.fromOpaque(handle).release()
+}

@@ -4,18 +4,25 @@
 mod autorelease;
 pub mod error;
 pub mod ffi;
+pub mod notification_center;
 pub mod process_info;
 pub mod user_defaults;
 mod util;
 
 pub use autorelease::autoreleasepool;
 pub use error::FoundationError;
-pub use process_info::{OperatingSystemVersion, ProcessInfo, ThermalState};
+pub use notification_center::{NotificationCenter, NotificationObserver};
+pub use process_info::{
+    Activity, ActivityOptions, OperatingSystemVersion, ProcessInfo, ThermalState,
+};
 pub use user_defaults::{DefaultValue, UserDefaults};
 
 pub mod prelude {
     pub use crate::autorelease::autoreleasepool;
     pub use crate::error::FoundationError;
-    pub use crate::process_info::{OperatingSystemVersion, ProcessInfo, ThermalState};
+    pub use crate::notification_center::{NotificationCenter, NotificationObserver};
+    pub use crate::process_info::{
+        Activity, ActivityOptions, OperatingSystemVersion, ProcessInfo, ThermalState,
+    };
     pub use crate::user_defaults::{DefaultValue, UserDefaults};
 }

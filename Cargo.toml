@@ -5,7 +5,7 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 homepage = "https://github.com/doom-fish/foundation-rs"
 repository = "https://github.com/doom-fish/foundation-rs"
-description = "Safe Rust bindings for Apple's Foundation framework on macOS: user defaults and process information"
+description = "Safe Rust bindings for Foundation on macOS: defaults, notifications, and process activities"
 authors = ["Per Johansson <per@doom.fish>"]
 keywords = ["foundation", "userdefaults", "processinfo", "macos", "apple"]
 categories = ["api-bindings", "os::macos-apis"]
@@ -40,6 +40,7 @@ name = "foundation"
 crate-type = ["lib"]
 
 [dependencies]
+doom-fish-utils = { path = "../doom-fish-utils", version = ">=0.4.1, <0.5" }
 
 [package.metadata.docs.rs]
 default-target = "aarch64-apple-darwin"
@@ -54,6 +55,9 @@ name = "01_process_info"
 
 [[example]]
 name = "02_user_defaults"
+
+[[example]]
+name = "03_notifications_and_activities"
 
 [profile.release]
 debug = "full"
