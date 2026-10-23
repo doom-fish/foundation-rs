@@ -1,7 +1,7 @@
 # COVERAGE
 
 - Framework: `Foundation.framework`
-- Scope: this release covers `NSUserDefaults`, process information, process activities, `NSNotificationCenter` observers, and autorelease pools. Other Foundation classes are not in this release.
+- Scope: This release covers `NSUserDefaults`, `NSProcessInfo`, process activities, `NSNotificationCenter` observers, autorelease pools and the main `NSBundle`. Other Foundation classes are not in this release.
 - Legend: `✅` implemented, `⏭️` not implemented
 
 ## NSUserDefaults

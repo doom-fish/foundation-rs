@@ -1,6 +1,7 @@
 # foundation-rs
 
-Safe Rust bindings for Apple's [Foundation](https://developer.apple.com/documentation/foundation) framework on macOS. The crate supplies user defaults, process information, notification observers, and process activities.
+Safe Rust bindings for Apple's [Foundation](https://developer.apple.com/documentation/foundation) framework on macOS.
+The crate supplies user defaults, process information, notification observers, process activities and the main bundle.
 
 The crate requires macOS 11 or later. Low power mode and its notification need macOS 12. The animation tracking, tracking, and user interactive activity options need macOS 13. On macOS 11, `ProcessInfo::is_low_power_mode_enabled` returns `false`.
 
@@ -51,6 +52,23 @@ assert_eq!(ProcessInfo::process_identifier() as u32, std::process::id());
 ## Process activities
 
 `ProcessInfo::begin_activity` starts an activity with `ActivityOptions` and a nonempty reason. Combine options with `|` or `|=`. The `from_bits` method keeps unknown bits. Drop the `Activity` to end it.
+
+## Main bundle
+
+`Bundle::main` gives access to the main bundle. `bundle_identifier` returns `None` if the bundle has no identifier.
+`bundle_path` and `url_for_auxiliary_executable` return `PathBuf` values with copies of the file-system bytes.
+If the name is invalid or the executable does not exist, `url_for_auxiliary_executable` returns `None`.
+
+```rust
+use foundation::Bundle;
+
+let bundle = Bundle::main();
+println!("bundle path: {}", bundle.bundle_path().display());
+println!("bundle identifier: {:?}", bundle.bundle_identifier());
+if let Some(path) = bundle.url_for_auxiliary_executable("Tool") {
+    println!("auxiliary executable: {}", path.display());
+}
+```
 
 ## Raw functions
 
