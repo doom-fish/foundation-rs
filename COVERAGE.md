@@ -1,7 +1,7 @@
 # COVERAGE
 
 - Framework: `Foundation.framework`
-- Scope: this release covers the values of `NSUserDefaults` and the system information of `NSProcessInfo`. The other Foundation classes are not in this release.
+- Scope: this release covers the values of `NSUserDefaults`, the system information of `NSProcessInfo`, and autorelease pools. The other Foundation classes are not in this release.
 - Legend: `✅` implemented, `⏭️` not implemented
 
 ## NSUserDefaults
@@ -48,3 +48,9 @@
 | `-beginActivityWithOptions:reason:`, `-endActivity:`, `-performActivityWithOptions:reason:usingBlock:` | ⏭️ |  |  |
 | `-disableSuddenTermination`, `-enableSuddenTermination`, `-disableAutomaticTermination:`, `-enableAutomaticTermination:` | ⏭️ |  |  |
 | `macCatalystApp`, `iOSAppOnMac` | ⏭️ |  |  |
+
+## Autorelease pools
+
+| Objective-C API | Status | Rust API | Notes |
+| --- | --- | --- | --- |
+| `@autoreleasepool` | ✅ | `autoreleasepool` | Drains when the closure returns or panics. |

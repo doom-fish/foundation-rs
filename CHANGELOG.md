@@ -4,6 +4,12 @@ This file records the important changes to `foundation-rs`.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `autoreleasepool` runs a closure inside an Objective-C autorelease pool. The pool drains when the closure returns or panics.
+
 ## [0.1.0] - 2026-10-23
 
 ### Added
