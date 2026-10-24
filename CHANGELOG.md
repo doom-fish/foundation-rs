@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-10-24
+
 ### Added
 
 - `Bundle` reads the main bundle: its identifier, its path and the paths of its auxiliary executables. A path is a copy of the file-system bytes.
