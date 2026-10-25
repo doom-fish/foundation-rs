@@ -12,7 +12,9 @@ pub unsafe fn take_string(pointer: *mut c_char) -> Option<String> {
     if pointer.is_null() {
         return None;
     }
-    let value = unsafe { CStr::from_ptr(pointer) }.to_string_lossy().into_owned();
+    let value = unsafe { CStr::from_ptr(pointer) }
+        .to_string_lossy()
+        .into_owned();
     unsafe { ffi::foundation_string_free(pointer) };
     Some(value)
 }

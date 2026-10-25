@@ -8,8 +8,14 @@ fn main() -> Result<(), FoundationError> {
         ("ExampleSmoothing", DefaultValue::Integer(0)),
         ("ExampleGreeting", DefaultValue::from("hello")),
     ])?;
-    println!("registered integer: {}", standard.integer("ExampleSmoothing")?);
-    println!("registered string:  {:?}", standard.string("ExampleGreeting")?);
+    println!(
+        "registered integer: {}",
+        standard.integer("ExampleSmoothing")?
+    );
+    println!(
+        "registered string:  {:?}",
+        standard.string("ExampleGreeting")?
+    );
 
     let suite = UserDefaults::with_suite_name(SUITE)?;
     suite.set("ExampleScale", &DefaultValue::Double(1.5))?;

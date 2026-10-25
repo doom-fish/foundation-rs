@@ -84,7 +84,9 @@ impl UserDefaults {
         let handle = unsafe { ffi::foundation_user_defaults_with_suite_name(suite.as_ptr()) };
         NonNull::new(handle)
             .map(|handle| Self { handle })
-            .ok_or_else(|| FoundationError::InvalidArgument(format!("{name} cannot be a suite name")))
+            .ok_or_else(|| {
+                FoundationError::InvalidArgument(format!("{name} cannot be a suite name"))
+            })
     }
 
     pub fn register(&self, defaults: &[(&str, DefaultValue)]) -> Result<(), FoundationError> {
@@ -97,7 +99,9 @@ impl UserDefaults {
             let key = key.as_ptr();
             unsafe {
                 match value {
-                    NativeValue::Bool(value) => ffi::foundation_user_defaults_register_bool(handle, key, *value),
+                    NativeValue::Bool(value) => {
+                        ffi::foundation_user_defaults_register_bool(handle, key, *value)
+                    }
                     NativeValue::Integer(value) => {
                         ffi::foundation_user_defaults_register_integer(handle, key, *value);
                     }
@@ -117,24 +121,38 @@ impl UserDefaults {
         let value = NativeValue::new(value)?;
         self.with_key(key, |handle, key| unsafe {
             match &value {
-                NativeValue::Bool(value) => ffi::foundation_user_defaults_set_bool(handle, key, *value),
-                NativeValue::Integer(value) => ffi::foundation_user_defaults_set_integer(handle, key, *value),
-                NativeValue::Double(value) => ffi::foundation_user_defaults_set_double(handle, key, *value),
-                NativeValue::String(value) => ffi::foundation_user_defaults_set_string(handle, key, value.as_ptr()),
+                NativeValue::Bool(value) => {
+                    ffi::foundation_user_defaults_set_bool(handle, key, *value)
+                }
+                NativeValue::Integer(value) => {
+                    ffi::foundation_user_defaults_set_integer(handle, key, *value)
+                }
+                NativeValue::Double(value) => {
+                    ffi::foundation_user_defaults_set_double(handle, key, *value)
+                }
+                NativeValue::String(value) => {
+                    ffi::foundation_user_defaults_set_string(handle, key, value.as_ptr())
+                }
             }
         })
     }
 
     pub fn bool(&self, key: &str) -> Result<bool, FoundationError> {
-        self.with_key(key, |handle, key| unsafe { ffi::foundation_user_defaults_bool(handle, key) })
+        self.with_key(key, |handle, key| unsafe {
+            ffi::foundation_user_defaults_bool(handle, key)
+        })
     }
 
     pub fn integer(&self, key: &str) -> Result<i64, FoundationError> {
-        self.with_key(key, |handle, key| unsafe { ffi::foundation_user_defaults_integer(handle, key) })
+        self.with_key(key, |handle, key| unsafe {
+            ffi::foundation_user_defaults_integer(handle, key)
+        })
     }
 
     pub fn double(&self, key: &str) -> Result<f64, FoundationError> {
-        self.with_key(key, |handle, key| unsafe { ffi::foundation_user_defaults_double(handle, key) })
+        self.with_key(key, |handle, key| unsafe {
+            ffi::foundation_user_defaults_double(handle, key)
+        })
     }
 
     pub fn string(&self, key: &str) -> Result<Option<String>, FoundationError> {
@@ -144,11 +162,15 @@ impl UserDefaults {
     }
 
     pub fn contains(&self, key: &str) -> Result<bool, FoundationError> {
-        self.with_key(key, |handle, key| unsafe { ffi::foundation_user_defaults_contains(handle, key) })
+        self.with_key(key, |handle, key| unsafe {
+            ffi::foundation_user_defaults_contains(handle, key)
+        })
     }
 
     pub fn remove(&self, key: &str) -> Result<(), FoundationError> {
-        self.with_key(key, |handle, key| unsafe { ffi::foundation_user_defaults_remove(handle, key) })
+        self.with_key(key, |handle, key| unsafe {
+            ffi::foundation_user_defaults_remove(handle, key)
+        })
     }
 
     fn with_key<T>(
