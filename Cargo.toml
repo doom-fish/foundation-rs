@@ -1,11 +1,11 @@
 [package]
 name = "foundation-rs"
-version = "0.1.4"
+version = "0.2.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 homepage = "https://github.com/doom-fish/foundation-rs"
 repository = "https://github.com/doom-fish/foundation-rs"
-description = "Safe Rust bindings for Foundation on macOS: defaults, notifications, and process activities"
+description = "Safe Rust bindings for Foundation on macOS, including HTTP and WebSocket clients"
 authors = ["Per Johansson <per@doom.fish>"]
 keywords = ["foundation", "userdefaults", "processinfo", "macos", "apple"]
 categories = ["api-bindings", "os::macos-apis"]
@@ -42,6 +42,10 @@ crate-type = ["lib"]
 [dependencies]
 doom-fish-utils = { path = "../doom-fish-utils", version = ">=0.4.1, <0.5" }
 
+[features]
+default = []
+network = []
+
 [package.metadata.docs.rs]
 default-target = "aarch64-apple-darwin"
 targets = ["aarch64-apple-darwin", "x86_64-apple-darwin"]
@@ -58,6 +62,10 @@ name = "02_user_defaults"
 
 [[example]]
 name = "03_notifications_and_activities"
+
+[[example]]
+name = "04_http"
+required-features = ["network"]
 
 [profile.release]
 debug = "full"

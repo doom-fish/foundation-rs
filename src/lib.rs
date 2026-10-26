@@ -1,5 +1,6 @@
 #![doc = include_str!("../README.md")]
 #![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg(target_os = "macos")]
 
 mod autorelease;
 pub mod bundle;
@@ -9,6 +10,9 @@ pub mod notification_center;
 pub mod process_info;
 pub mod user_defaults;
 mod util;
+
+#[cfg(feature = "network")]
+pub mod network;
 
 pub use autorelease::autoreleasepool;
 pub use bundle::Bundle;

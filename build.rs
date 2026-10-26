@@ -7,7 +7,7 @@ fn main() {
     println!("cargo:rerun-if-env-changed=DOCS_RS");
     println!("cargo:rerun-if-env-changed=SDKROOT");
     println!("cargo:rerun-if-env-changed=DEVELOPER_DIR");
-    if env::var("DOCS_RS").is_ok() {
+    if env::var("DOCS_RS").is_ok() || env::var("CARGO_CFG_TARGET_OS").as_deref() != Ok("macos") {
         return;
     }
 
@@ -25,6 +25,14 @@ fn main() {
     };
 
     let mut swift_build = Command::new("swift");
+    swift_build.env(
+        "FOUNDATION_NETWORK",
+        if env::var_os("CARGO_FEATURE_NETWORK").is_some() {
+            "1"
+        } else {
+            "0"
+        },
+    );
     swift_build
         .args([
             "build",
@@ -37,7 +45,7 @@ fn main() {
             "--scratch-path",
             &swift_build_dir,
         ])
-        .args(["--jobs", "4"]);
+        .args(["--jobs", "4", "-Xswiftc", "-num-threads", "-Xswiftc", "4"]);
     let out = swift_build.output().expect("swift build");
     assert!(
         out.status.success(),

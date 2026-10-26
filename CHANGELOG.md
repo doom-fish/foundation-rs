@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-26
+
+### Added
+
+- Add the optional `network` feature for native HTTP and WebSocket clients.
+- Add ephemeral sessions, incremental response data, bounded streamed uploads, native progress and strict system trust.
+- Add host-controlled redirects, system proxies with local bypass, timeouts, cancellation and owned callbacks on a host-owned serial queue.
+- Add WebSocket subprotocols, origin headers, text and binary messages, a 64 MiB default limit, ping and close codes.
+- Preserve native errors, certificate trust details, underlying socket errors and protocol metrics.
+- Compile to an empty library on non-macOS targets.
+
 ## [0.1.4] - 2026-10-26
 
 ### Fixed
