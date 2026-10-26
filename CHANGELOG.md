@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-10-26
+
+### Fixed
+
+- Build the Swift bridge with the default SwiftPM build engine and use its reported product directory.
+
 ## [0.1.2] - 2026-10-24
 
 ### Added
