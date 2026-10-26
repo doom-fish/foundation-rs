@@ -100,7 +100,7 @@ impl UserDefaults {
             unsafe {
                 match value {
                     NativeValue::Bool(value) => {
-                        ffi::foundation_user_defaults_register_bool(handle, key, *value)
+                        ffi::foundation_user_defaults_register_bool(handle, key, *value);
                     }
                     NativeValue::Integer(value) => {
                         ffi::foundation_user_defaults_register_integer(handle, key, *value);
@@ -122,16 +122,16 @@ impl UserDefaults {
         self.with_key(key, |handle, key| unsafe {
             match &value {
                 NativeValue::Bool(value) => {
-                    ffi::foundation_user_defaults_set_bool(handle, key, *value)
+                    ffi::foundation_user_defaults_set_bool(handle, key, *value);
                 }
                 NativeValue::Integer(value) => {
-                    ffi::foundation_user_defaults_set_integer(handle, key, *value)
+                    ffi::foundation_user_defaults_set_integer(handle, key, *value);
                 }
                 NativeValue::Double(value) => {
-                    ffi::foundation_user_defaults_set_double(handle, key, *value)
+                    ffi::foundation_user_defaults_set_double(handle, key, *value);
                 }
                 NativeValue::String(value) => {
-                    ffi::foundation_user_defaults_set_string(handle, key, value.as_ptr())
+                    ffi::foundation_user_defaults_set_string(handle, key, value.as_ptr());
                 }
             }
         })
@@ -169,7 +169,7 @@ impl UserDefaults {
 
     pub fn remove(&self, key: &str) -> Result<(), FoundationError> {
         self.with_key(key, |handle, key| unsafe {
-            ffi::foundation_user_defaults_remove(handle, key)
+            ffi::foundation_user_defaults_remove(handle, key);
         })
     }
 

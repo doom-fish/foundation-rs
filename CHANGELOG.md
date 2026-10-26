@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-10-26
+
+### Fixed
+
+- Use unit callback statements that pass Clippy 1.99.
+
 ## [0.1.3] - 2026-10-26
 
 ### Fixed
