@@ -257,7 +257,9 @@ impl NativeRequest {
         );
         for (name, value) in &request.headers {
             if !is_http_name(name)
-                || !value.bytes().all(|byte| (32..=126).contains(&byte))
+                || !value
+                    .bytes()
+                    .all(|byte| byte == b'\t' || (32..=126).contains(&byte))
                 || name.len().saturating_add(value.len()) > 100 * 1024
             {
                 return Err(NetworkError::argument("A request header is invalid."));
@@ -467,12 +469,16 @@ impl WebSocketTask {
     }
 
     pub fn close(&self, code: u16, reason: &str) -> Result<(), NetworkError> {
-        if !matches!(code, 1000..=1003 | 1007..=1014 | 3000..=4999) {
+        if !matches!(code, 1000..=1003 | 1005 | 1007..=1014 | 3000..=4999) {
             return Err(NetworkError::argument(
                 "The WebSocket close code is invalid.",
             ));
         }
-        let mut count = reason.len().min(123);
+        let mut count = if code == 1005 {
+            0
+        } else {
+            reason.len().min(123)
+        };
         while !reason.is_char_boundary(count) {
             count -= 1;
         }

@@ -136,7 +136,7 @@ Use `suspend` and `resume` for host backpressure.
 `Request` accepts an ordered header vector, including repeated names, and an optional owned body.
 The bridge copies the body before task creation returns.
 Header names and methods must use valid ASCII field characters.
-Header values must use visible ASCII.
+Header values can contain horizontal tabs and visible ASCII.
 Requests and responses permit at most 100 fields and 100 KiB per name/value pair.
 Foundation can combine repeated response fields, including `Set-Cookie`.
 The native client can change wire header order and case.
@@ -204,6 +204,7 @@ Their completion events are `Sent` and `Pong`.
 A send completion does not mean that the remote application received the message.
 
 `close` accepts standard or private close codes and a UTF-8 reason.
+Code 1005 sends an empty close frame and ignores the reason.
 The reason stops at 123 bytes without a split character.
 `Event::WebSocketClose` retains the native code and reason.
 It precedes the terminal result after native completion.

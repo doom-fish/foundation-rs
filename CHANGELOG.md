@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-27
+
+### Fixed
+
+- Accept horizontal tabs in HTTP header values.
+- Support an empty WebSocket close frame through code 1005.
+
 ## [0.2.0] - 2026-10-26
 
 ### Added

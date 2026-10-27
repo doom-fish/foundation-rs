@@ -104,7 +104,7 @@
 | `URLCache`, `HTTPCookieStorage`, `HTTPShouldSetCookies`, `URLCredentialStorage`, `requestCachePolicy` | Implemented | Session policy | Native cache, automatic cookies and credential storage are disabled. |
 | `connectionProxyDictionary` | Implemented | `ProxyPolicy` | System proxy selection with direct local routes, or direct-only mode. |
 | `HTTPMaximumConnectionsPerHost`, `TLSMinimumSupportedProtocolVersion` | Implemented | `SessionConfig`, session policy | Sixteen connections by default. Strict trust and TLS 1.2 minimum. |
-| `NSMutableURLRequest`, method, headers, body, timeout | Implemented | `Request` | Repeated input names remain available. Foundation can combine values. |
+| `NSMutableURLRequest`, method, headers, body, timeout | Implemented | `Request` | Repeated input names and horizontal tabs remain available. Foundation can combine values. |
 | `dataTaskWithRequest:` | Implemented | `Session::data_task` | Suspended creation with an owned task handle. |
 | `uploadTaskWithStreamedRequest:`, `needNewBodyStream` | Implemented | `DataTask::upload_body`, `UploadWriter` | Bounded native stream with a known length. No replay after consumption. |
 | `didReceiveResponse`, `didReceiveData`, `didSendBodyData` | Implemented | `Response`, `Data`, `UploadProgress` events | No full-response buffer in the binding. |
@@ -125,7 +125,7 @@
 | `receiveMessageWithCompletionHandler:` | Implemented | `receive`, `Message` | One explicit receive at a time. Text and binary remain distinct. |
 | `sendMessage:completionHandler:` | Implemented | `send`, `Sent` | One pending send with an owned native buffer. |
 | `sendPingWithPongReceiveHandler:` | Implemented | `ping`, `Pong` | One pending ping. Native automatic pong remains active with a pending receive. |
-| `cancelWithCloseCode:reason:`, `didCloseWithCode:reason:` | Implemented | `close`, `WebSocketClose` | Standard/private codes and a UTF-8 reason of at most 123 bytes. |
+| `cancelWithCloseCode:reason:`, `didCloseWithCode:reason:` | Implemented | `close`, `WebSocketClose` | Standard/private codes, empty close frames through 1005 and a UTF-8 reason of at most 123 bytes. |
 | Continuation frames, masking, HTTP upgrade, control frames | Native | Native task | No frame parser or TLS implementation in the crate. |
 | Extension policy, compression control, custom WebSocket handshake validation | Not implemented | | The native client owns these protocol details. |
 
