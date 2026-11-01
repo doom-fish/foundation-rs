@@ -1,6 +1,6 @@
 [package]
 name = "foundation-rs"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 homepage = "https://github.com/doom-fish/foundation-rs"
@@ -41,7 +41,7 @@ name = "foundation"
 crate-type = ["lib"]
 
 [dependencies]
-doom-fish-utils = { path = "../doom-fish-utils", version = ">=0.4.1, <0.5" }
+doom-fish-utils = ">=0.4.1, <0.5"
 
 [features]
 default = []
