@@ -1,9 +1,7 @@
-use std::ffi::{CStr, OsStr};
-use std::os::unix::ffi::OsStrExt;
 use std::path::PathBuf;
 
 use crate::ffi;
-use crate::util::{c_string, take_string};
+use crate::util::{c_string, take_path, take_string};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Bundle;
@@ -21,26 +19,15 @@ impl Bundle {
 
     #[must_use]
     pub fn bundle_path(&self) -> PathBuf {
-        take_path(unsafe { ffi::foundation_bundle_path() })
+        unsafe { take_path(ffi::foundation_bundle_path()) }
             .expect("the main bundle has a file-system path")
     }
 
     #[must_use]
     pub fn url_for_auxiliary_executable(&self, name: &str) -> Option<PathBuf> {
         let name = c_string(name).ok()?;
-        take_path(unsafe { ffi::foundation_bundle_url_for_auxiliary_executable(name.as_ptr()) })
+        unsafe { take_path(ffi::foundation_bundle_url_for_auxiliary_executable(name.as_ptr())) }
     }
-}
-
-fn take_path(pointer: *mut core::ffi::c_char) -> Option<PathBuf> {
-    if pointer.is_null() {
-        return None;
-    }
-    let path = PathBuf::from(OsStr::from_bytes(
-        unsafe { CStr::from_ptr(pointer) }.to_bytes(),
-    ));
-    unsafe { ffi::foundation_string_free(pointer) };
-    Some(path)
 }
 
 #[cfg(test)]

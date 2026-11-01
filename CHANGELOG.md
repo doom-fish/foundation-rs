@@ -6,6 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-01
+
+### Added
+
+- `FileManager::trash_item` moves an item to the Trash and returns its new path.
+- `FileManager::set_excluded_from_backup` and `FileManager::is_excluded_from_backup` control the backup exclusion flag.
+- File operations preserve path bytes and native error domains, codes and descriptions.
+- The `trash_item` and `backup_exclusion` examples remove the items that they create.
+
 ## [0.2.1] - 2026-10-27
 
 ### Fixed

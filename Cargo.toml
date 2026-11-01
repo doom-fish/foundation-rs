@@ -1,6 +1,6 @@
 [package]
 name = "foundation-rs"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 homepage = "https://github.com/doom-fish/foundation-rs"
@@ -24,6 +24,7 @@ include = [
     "LICENSE-*",
     "CHANGELOG.md",
     "COVERAGE.md",
+    "COVERAGE_AUDIT.md",
 ]
 
 [lints.rust]
@@ -66,6 +67,12 @@ name = "03_notifications_and_activities"
 [[example]]
 name = "04_http"
 required-features = ["network"]
+
+[[example]]
+name = "trash_item"
+
+[[example]]
+name = "backup_exclusion"
 
 [profile.release]
 debug = "full"

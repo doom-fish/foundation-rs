@@ -7,6 +7,26 @@ extern "C" {
     pub fn foundation_bundle_path() -> *mut c_char;
     pub fn foundation_bundle_url_for_auxiliary_executable(name: *const c_char) -> *mut c_char;
 
+    pub fn foundation_file_manager_trash_item(
+        path: *const c_char,
+        error_domain: *mut *mut c_char,
+        error_code: *mut i64,
+        error_message: *mut *mut c_char,
+    ) -> *mut c_char;
+    pub fn foundation_file_manager_set_excluded_from_backup(
+        path: *const c_char,
+        excluded: bool,
+        error_domain: *mut *mut c_char,
+        error_code: *mut i64,
+        error_message: *mut *mut c_char,
+    ) -> bool;
+    pub fn foundation_file_manager_is_excluded_from_backup(
+        path: *const c_char,
+        error_domain: *mut *mut c_char,
+        error_code: *mut i64,
+        error_message: *mut *mut c_char,
+    ) -> i32;
+
     pub fn foundation_user_defaults_standard() -> *mut c_void;
     pub fn foundation_user_defaults_with_suite_name(name: *const c_char) -> *mut c_void;
     pub fn foundation_user_defaults_release(defaults: *mut c_void);

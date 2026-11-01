@@ -6,6 +6,7 @@ mod autorelease;
 pub mod bundle;
 pub mod error;
 pub mod ffi;
+pub mod file_manager;
 pub mod notification_center;
 pub mod process_info;
 pub mod user_defaults;
@@ -17,6 +18,7 @@ pub mod network;
 pub use autorelease::autoreleasepool;
 pub use bundle::Bundle;
 pub use error::FoundationError;
+pub use file_manager::FileManager;
 pub use notification_center::{NotificationCenter, NotificationObserver};
 pub use process_info::{
     Activity, ActivityOptions, OperatingSystemVersion, ProcessInfo, ThermalState,
@@ -27,6 +29,7 @@ pub mod prelude {
     pub use crate::autorelease::autoreleasepool;
     pub use crate::bundle::Bundle;
     pub use crate::error::FoundationError;
+    pub use crate::file_manager::FileManager;
     pub use crate::notification_center::{NotificationCenter, NotificationObserver};
     pub use crate::process_info::{
         Activity, ActivityOptions, OperatingSystemVersion, ProcessInfo, ThermalState,

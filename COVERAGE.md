@@ -1,7 +1,8 @@
 # COVERAGE
 
 - Framework: `Foundation.framework`
-- Scope: This release covers defaults, process information, activities, notification observers, autorelease pools, the main bundle and optional native HTTP and WebSocket clients.
+- Scope: This release covers defaults, process information, activities, notification observers, autorelease pools, the main bundle and file operations.
+- Scope: The optional `network` feature covers native HTTP and WebSocket clients.
 - Legend: `✅` implemented, `⏭️` not implemented
 
 ## NSUserDefaults
@@ -94,6 +95,17 @@
 | `-bundleIdentifier` | ✅ | `Bundle::bundle_identifier` | `None` when the bundle has no identifier. |
 | `-bundlePath` | ✅ | `Bundle::bundle_path` | A copy of the file-system bytes. |
 | `-URLForAuxiliaryExecutable:` | ✅ | `Bundle::url_for_auxiliary_executable` | `None` when the executable does not exist. |
+
+## NSFileManager and NSURL file resources
+
+| Apple API | Status | Rust surface | Notes |
+| --- | --- | --- | --- |
+| `-trashItemAtURL:resultingItemURL:error:` | ✅ | `FileManager::trash_item` | Returns the Trash path. No permanent-delete alternative. |
+| `-setResourceValues:error:`, `NSURLIsExcludedFromBackupKey` | ✅ | `FileManager::set_excluded_from_backup` | Sets or clears the flag on an existing item. |
+| `-resourceValuesForKeys:error:`, `NSURLIsExcludedFromBackupKey` | ✅ | `FileManager::is_excluded_from_backup` | Reads the flag on an existing item. |
+| `-initFileURLWithFileSystemRepresentation:isDirectory:relativeToURL:`, `fileSystemRepresentation` | ✅ | File operation path conversion | Preserves file-system bytes. Not a general URL wrapper. |
+| `NSError.domain`, `code`, `localizedDescription` | ✅ | `FoundationError::Native` | Copies the native error details. |
+| Copy, move, remove, directory enumeration and Trash restore | ⏭️ |  |  |
 
 ## URLSession (`network` feature)
 

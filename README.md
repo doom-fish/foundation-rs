@@ -1,7 +1,7 @@
 # foundation-rs
 
 Safe Rust bindings for Apple's [Foundation](https://developer.apple.com/documentation/foundation) framework on macOS.
-The crate supplies user defaults, process information, notification observers, process activities and the main bundle.
+The crate supplies user defaults, process information, notification observers, process activities, the main bundle and file operations.
 The optional `network` feature adds HTTP and WebSocket clients.
 
 The crate requires macOS 11 or later. Low power mode and its notification need macOS 12. The animation tracking, tracking, and user interactive activity options need macOS 13. On macOS 11, `ProcessInfo::is_low_power_mode_enabled` returns `false`.
@@ -75,6 +75,17 @@ if let Some(path) = bundle.url_for_auxiliary_executable("Tool") {
 ## Raw functions
 
 The `ffi` module declares the functions of the Swift bridge. A string that a bridge function returns belongs to the caller. Use `ffi::foundation_string_free` to release it.
+
+## File operations
+
+`FileManager::trash_item` moves a file or folder to the system Trash and returns its new `PathBuf`.
+If the operation fails, the method returns an error. It does not delete the item as an alternative.
+The source and result paths preserve their file-system bytes.
+
+`FileManager::set_excluded_from_backup` sets or clears the backup exclusion flag on an existing file or folder.
+`FileManager::is_excluded_from_backup` reads this flag.
+These methods accept relative or absolute paths. Empty paths and paths with a NUL byte return `FoundationError::InvalidArgument`.
+Native failures return `FoundationError::Native` with the error domain, code and description.
 
 ## HTTP and WebSocket clients
 
@@ -231,7 +242,13 @@ cargo run --example 01_process_info
 cargo run --example 02_user_defaults
 cargo run --example 03_notifications_and_activities
 cargo run --features network --example 04_http -- https://example.com/
+cargo run --example trash_item
+cargo run --example backup_exclusion
 ```
+
+`trash_item` creates a file in `target`, moves it to the Trash, prints the Trash path and deletes that file.
+`backup_exclusion` creates a folder in `target`, compares both flag values with `tmutil isexcluded` and removes the folder.
+The native flag applies to the item. `tmutil` also applies parent and system exclusions.
 
 ## License
 
