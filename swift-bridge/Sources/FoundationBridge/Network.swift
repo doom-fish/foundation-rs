@@ -440,19 +440,18 @@ final class NetworkTask {
         guard reserve(1) else { return false }
         owner.enqueue {
             guard self.active, let socket = self.current as? URLSessionWebSocketTask else { return }
-            socket.receive { result in
+            socket.__receiveMessage { message, error in
                 self.owner.enqueue {
                     self.lock.withLock { self.receiving = false }
                     let event = NetworkEvent(7)
-                    switch result {
-                    case .success(.string(let text)):
+                    if let error {
+                        event.error = error as NSError
+                    } else if let message, message.type == .string, let text = message.string {
                         event.data = Data(text.utf8) as NSData
                         event.flags = 1
-                    case .success(.data(let data)):
+                    } else if let message, message.type == .data, let data = message.data {
                         event.data = data as NSData
-                    case .failure(let error):
-                        event.error = error as NSError
-                    @unknown default:
+                    } else {
                         event.error = NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotDecodeContentData)
                     }
                     self.emit(event)

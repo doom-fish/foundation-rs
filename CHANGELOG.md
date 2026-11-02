@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+### Fixed
+
+- `WebSocketTask::receive` gives an error event when Foundation completes the receive with neither a message nor an error. Before this change, the Swift wrapper of Foundation stopped the process with a trap. The Swift bridge now calls the Objective-C completion-handler form.
+
 ## [0.2.3] - 2026-11-01
 
 ### Changed
